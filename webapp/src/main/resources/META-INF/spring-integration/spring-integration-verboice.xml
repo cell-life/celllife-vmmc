@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+<context:component-scan base-package="org.celllife.vmmc.integration.verboice"/>
+
+    <bean id="verboiceHttpClient" class="org.apache.http.impl.client.DefaultHttpClient">
+        <constructor-arg name="conman">
+            <bean class="org.apache.http.impl.conn.PoolingClientConnectionManager">
+                <constructor-arg name="schemeRegistry">
+                    <bean class="org.apache.http.impl.conn.SchemeRegistryFactory" factory-method="createDefault"/>
+                </constructor-arg>
+                <constructor-arg name="timeToLive" value="60"/>
+                <constructor-arg name="tunit" value="SECONDS"/>
+                <property name="maxTotal" value="50"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="verboiceAuthenticationHeader" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.apache.http.impl.auth.BasicScheme"/>
+        <property name="targetMethod" value="authenticate"/>
+        <property name="arguments">
+            <array>
+                <bean class="org.apache.http.auth.UsernamePasswordCredentials">
+                    <constructor-arg name="userName" value="${verboice.username}"/>
+                    <constructor-arg name="password" value="${verboice.password}"/>
+                </bean>
+                <value>US-ASCII</value>
+                <value>false</value>
+            </array>
+        </property>
+    </bean>
+
+</beans>

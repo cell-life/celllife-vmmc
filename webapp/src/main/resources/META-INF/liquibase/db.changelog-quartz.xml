@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet author="dine@cell-life.org" id="quartz-1">
+            <createTable tableName="QRTZ_BLOB_TRIGGERS">
+                <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="BLOB_DATA" type="BLOB"/>
+            </createTable>
+
+            <createTable tableName="QRTZ_CALENDARS">
+                <column name="CALENDAR_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+                <column name="CALENDAR" type="BLOB">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+
+            <createTable tableName="QRTZ_CRON_TRIGGERS">
+                <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="CRON_EXPRESSION" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TIME_ZONE_ID" type="VARCHAR(80)"/>
+            </createTable>
+
+            <createTable tableName="QRTZ_FIRED_TRIGGERS">
+                <column name="ENTRY_ID" type="VARCHAR(95)">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+                <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="IS_VOLATILE" type="VARCHAR(15)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="INSTANCE_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="FIRED_TIME" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="PRIORITY" type="INT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="STATE" type="VARCHAR(16)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="JOB_NAME" type="VARCHAR(200)"/>
+                <column name="JOB_GROUP" type="VARCHAR(200)"/>
+                <column name="IS_STATEFUL" type="VARCHAR(1)"/>
+                <column name="REQUESTS_RECOVERY" type="VARCHAR(1)"/>
+            </createTable>
+
+            <createTable tableName="QRTZ_JOB_DETAILS">
+                <column name="JOB_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="JOB_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="DESCRIPTION" type="VARCHAR(250)"/>
+                <column name="JOB_CLASS_NAME" type="VARCHAR(250)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="IS_DURABLE" type="VARCHAR(15)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="IS_VOLATILE" type="VARCHAR(15)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="IS_STATEFUL" type="VARCHAR(15)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="REQUESTS_RECOVERY" type="VARCHAR(15)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="JOB_DATA" type="BLOB"/>
+            </createTable>
+
+            <createTable tableName="QRTZ_JOB_LISTENERS">
+                <column name="JOB_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="JOB_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="JOB_LISTENER" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+
+            <createTable tableName="QRTZ_LOCKS">
+                <column name="LOCK_NAME" type="VARCHAR(40)">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </createTable>
+
+            <createTable tableName="QRTZ_PAUSED_TRIGGER_GRPS">
+                <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </createTable>
+
+            <createTable tableName="QRTZ_SCHEDULER_STATE">
+                <column name="INSTANCE_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+                <column name="LAST_CHECKIN_TIME" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="CHECKIN_INTERVAL" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+
+            <createTable tableName="QRTZ_SIMPLE_TRIGGERS">
+                <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="REPEAT_COUNT" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="REPEAT_INTERVAL" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TIMES_TRIGGERED" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+
+            <createTable tableName="QRTZ_TRIGGER_LISTENERS">
+                <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_LISTENER" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+
+            <createTable tableName="QRTZ_TRIGGERS">
+                <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="JOB_NAME" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="JOB_GROUP" type="VARCHAR(200)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="IS_VOLATILE" type="VARCHAR(15)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="DESCRIPTION" type="VARCHAR(250)"/>
+                <column name="NEXT_FIRE_TIME" type="BIGINT"/>
+                <column name="PREV_FIRE_TIME" type="BIGINT"/>
+                <column name="PRIORITY" type="INT"/>
+                <column name="TRIGGER_STATE" type="VARCHAR(16)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="TRIGGER_TYPE" type="VARCHAR(8)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="START_TIME" type="BIGINT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="END_TIME" type="BIGINT"/>
+                <column name="CALENDAR_NAME" type="VARCHAR(200)"/>
+                <column name="MISFIRE_INSTR" type="SMALLINT"/>
+                <column name="JOB_DATA" type="BLOB"/>
+            </createTable>
+
+        <insert tableName="QRTZ_LOCKS">
+            <column name="LOCK_NAME" value="TRIGGER_ACCESS" />
+        </insert>
+        <insert tableName="QRTZ_LOCKS">
+            <column name="LOCK_NAME" value="JOB_ACCESS" />
+        </insert>
+        <insert tableName="QRTZ_LOCKS">
+            <column name="LOCK_NAME" value="CALENDAR_ACCESS" />
+        </insert>
+        <insert tableName="QRTZ_LOCKS">
+            <column name="LOCK_NAME" value="STATE_ACCESS" />
+        </insert>
+        <insert tableName="QRTZ_LOCKS">
+            <column name="LOCK_NAME" value="MISFIRE_ACCESS" />
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
+
+
+<!--
+
+
+
+        CREATE TABLE QRTZ_JOB_DETAILS
+        (
+        JOB_NAME  VARCHAR(200) NOT NULL,
+        JOB_GROUP VARCHAR(200) NOT NULL,
+        DESCRIPTION VARCHAR(250) NULL,
+        JOB_CLASS_NAME   VARCHAR(250) NOT NULL,
+        IS_DURABLE VARCHAR(1) NOT NULL,
+        IS_VOLATILE VARCHAR(1) NOT NULL,
+        IS_STATEFUL VARCHAR(1) NOT NULL,
+        REQUESTS_RECOVERY VARCHAR(1) NOT NULL,
+        JOB_DATA BLOB NULL,
+        PRIMARY KEY (JOB_NAME,JOB_GROUP)
+        );
+
+        CREATE TABLE QRTZ_JOB_LISTENERS
+        (
+        JOB_NAME  VARCHAR(200) NOT NULL,
+        JOB_GROUP VARCHAR(200) NOT NULL,
+        JOB_LISTENER VARCHAR(200) NOT NULL,
+        PRIMARY KEY (JOB_NAME,JOB_GROUP,JOB_LISTENER),
+        FOREIGN KEY (JOB_NAME,JOB_GROUP)
+        REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP)
+        );
+
+        CREATE TABLE QRTZ_TRIGGERS
+        (
+        TRIGGER_NAME VARCHAR(200) NOT NULL,
+        TRIGGER_GROUP VARCHAR(200) NOT NULL,
+        JOB_NAME  VARCHAR(200) NOT NULL,
+        JOB_GROUP VARCHAR(200) NOT NULL,
+        IS_VOLATILE VARCHAR(1) NOT NULL,
+        DESCRIPTION VARCHAR(250) NULL,
+        NEXT_FIRE_TIME BIGINT(13) NULL,
+        PREV_FIRE_TIME BIGINT(13) NULL,
+        PRIORITY INTEGER NULL,
+        TRIGGER_STATE VARCHAR(16) NOT NULL,
+        TRIGGER_TYPE VARCHAR(8) NOT NULL,
+        START_TIME BIGINT(13) NOT NULL,
+        END_TIME BIGINT(13) NULL,
+        CALENDAR_NAME VARCHAR(200) NULL,
+        MISFIRE_INSTR SMALLINT(2) NULL,
+        JOB_DATA BLOB NULL,
+        PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
+        FOREIGN KEY (JOB_NAME,JOB_GROUP)
+        REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP)
+        );
+
+        CREATE TABLE QRTZ_SIMPLE_TRIGGERS
+        (
+        TRIGGER_NAME VARCHAR(200) NOT NULL,
+        TRIGGER_GROUP VARCHAR(200) NOT NULL,
+        REPEAT_COUNT BIGINT(7) NOT NULL,
+        REPEAT_INTERVAL BIGINT(12) NOT NULL,
+        TIMES_TRIGGERED BIGINT(10) NOT NULL,
+        PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
+        FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP)
+        REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+        );
+
+        CREATE TABLE QRTZ_CRON_TRIGGERS
+        (
+        TRIGGER_NAME VARCHAR(200) NOT NULL,
+        TRIGGER_GROUP VARCHAR(200) NOT NULL,
+        CRON_EXPRESSION VARCHAR(200) NOT NULL,
+        TIME_ZONE_ID VARCHAR(80),
+        PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
+        FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP)
+        REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+        );
+
+        CREATE TABLE QRTZ_BLOB_TRIGGERS
+        (
+        TRIGGER_NAME VARCHAR(200) NOT NULL,
+        TRIGGER_GROUP VARCHAR(200) NOT NULL,
+        BLOB_DATA BLOB NULL,
+        PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
+        FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP)
+        REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+        );
+
+        CREATE TABLE QRTZ_TRIGGER_LISTENERS
+        (
+        TRIGGER_NAME  VARCHAR(200) NOT NULL,
+        TRIGGER_GROUP VARCHAR(200) NOT NULL,
+        TRIGGER_LISTENER VARCHAR(200) NOT NULL,
+        PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_LISTENER),
+        FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP)
+        REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+        );
+
+
+        CREATE TABLE QRTZ_CALENDARS
+        (
+        CALENDAR_NAME  VARCHAR(200) NOT NULL,
+        CALENDAR BLOB NOT NULL,
+        PRIMARY KEY (CALENDAR_NAME)
+        );
+
+
+
+        CREATE TABLE QRTZ_PAUSED_TRIGGER_GRPS
+        (
+        TRIGGER_GROUP  VARCHAR(200) NOT NULL,
+        PRIMARY KEY (TRIGGER_GROUP)
+        );
+
+        CREATE TABLE QRTZ_FIRED_TRIGGERS
+        (
+        ENTRY_ID VARCHAR(95) NOT NULL,
+        TRIGGER_NAME VARCHAR(200) NOT NULL,
+        TRIGGER_GROUP VARCHAR(200) NOT NULL,
+        IS_VOLATILE VARCHAR(1) NOT NULL,
+        INSTANCE_NAME VARCHAR(200) NOT NULL,
+        FIRED_TIME BIGINT(13) NOT NULL,
+        PRIORITY INTEGER NOT NULL,
+        STATE VARCHAR(16) NOT NULL,
+        JOB_NAME VARCHAR(200) NULL,
+        JOB_GROUP VARCHAR(200) NULL,
+        IS_STATEFUL VARCHAR(1) NULL,
+        REQUESTS_RECOVERY VARCHAR(1) NULL,
+        PRIMARY KEY (ENTRY_ID)
+        );
+
+        CREATE TABLE QRTZ_SCHEDULER_STATE
+        (
+        INSTANCE_NAME VARCHAR(200) NOT NULL,
+        LAST_CHECKIN_TIME BIGINT(13) NOT NULL,
+        CHECKIN_INTERVAL BIGINT(13) NOT NULL,
+        PRIMARY KEY (INSTANCE_NAME)
+        );
+
+        CREATE TABLE QRTZ_LOCKS
+        (
+        LOCK_NAME  VARCHAR(40) NOT NULL,
+        PRIMARY KEY (LOCK_NAME)
+        );
+
+
+        INSERT INTO QRTZ_LOCKS values('TRIGGER_ACCESS');
+        INSERT INTO QRTZ_LOCKS values('JOB_ACCESS');
+        INSERT INTO QRTZ_LOCKS values('CALENDAR_ACCESS');
+        INSERT INTO QRTZ_LOCKS values('STATE_ACCESS');
+        INSERT INTO QRTZ_LOCKS values('MISFIRE_ACCESS');
+
+
+        commit;                        -->

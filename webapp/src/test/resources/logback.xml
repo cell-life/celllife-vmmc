@@ -1,0 +1,50 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/${appId}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${appId}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Cell-Life -->
+
+    <logger name="org.celllife" level="WARN" />
+
+    <!-- Hibernate -->
+
+    <logger name="org.hibernate" level="WARN" />
+
+    <!-- Spring -->
+
+    <logger name="org.springframework" level="WARN" />
+
+    <!-- C3P0 Connection Pool -->
+
+    <logger name="com.mchange.v2" level="WARN" />
+
+    <!-- Liquibase -->
+
+    <logger name="liquibase" level="WARN" />
+
+    <!-- Root -->
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>

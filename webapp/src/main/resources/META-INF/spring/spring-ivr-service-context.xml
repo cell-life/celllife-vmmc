@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <context:annotation-config />
+
+    <util:properties id="quartzProperties" location="classpath:quartz.properties" />
+
+    <bean name="relativeCampaignJobRunner" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="volatility" value="false"/>
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="true"/>
+        <property name="group" value="campaignJobs" />
+        <property name="name" value="relativeCampaignJobRunner" />
+        <property name="jobClass" value="org.celllife.ivr.application.jobs.RelativeCampaignJobRunner" />
+    </bean>
+
+    <bean id="qrtzScheduler"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="destroy">
+        <property name="exposeSchedulerInRepository" value="true" />
+        <property name="autoStartup" value="true" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+        <property name="quartzProperties" ref="quartzProperties" />
+        <property name="taskExecutor" ref="quartzTaskExecutor" />
+        <!--<property name="triggers">
+            <list>
+                <ref bean="processCampFinishTrigger" />
+            </list>
+        </property>-->
+        <property name="jobDetails">
+            <list>
+                <ref bean="relativeCampaignJobRunner" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="quartzTaskExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="10" />
+        <property name="maxPoolSize" value="50" />
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+        <qualifier value="quartzTaskExecutor" />
+    </bean>
+
+</beans>

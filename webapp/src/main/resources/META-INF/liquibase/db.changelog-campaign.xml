@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet author="dine@cell-life.org" id="campaign-1">
+        <createTable tableName="campaign">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="name" type="VARCHAR(32)" />
+            <column name="description" type="VARCHAR(128)" />
+            <column name="times_per_day" type="INT" />
+            <column name="duration" type="INT" />
+            <column name="start_date" type="DATETIME" />
+            <column name="end_date" type="DATETIME" />
+            <column name="type" type="VARCHAR(32)" />
+            <column name="status" type="VARCHAR(32)" />
+            <column name="call_flow_name" type="VARCHAR(32)" />
+            <column name="channel_name" type="VARCHAR(32)" />
+            <column name="schedule_name" type="VARCHAR(32)" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="campaign-2" author="dine@cell-life.org">
+        <addColumn tableName="campaign">
+            <column name="verboice_project_id" type="BIGINT" defaultValue="7" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="campaign-3" author="dine@cell-life.org">
+        <comment>Removing 'type' and 'times_per_day' columns from Campaign table.</comment>
+        <dropColumn tableName="campaign" columnName="type" />
+        <dropColumn tableName="campaign" columnName="times_per_day" />
+    </changeSet>
+
+</databaseChangeLog>
