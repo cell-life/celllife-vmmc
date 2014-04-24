@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @ContextConfiguration({
-        /*"classpath:/META-INF/spring/spring-aop.xml",
+        "classpath:/META-INF/spring/spring-aop.xml",
         "classpath:/META-INF/spring/spring-application.xml",
         "classpath:/META-INF/spring/spring-cache.xml",
         "classpath:/META-INF/spring/spring-config.xml",
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "classpath:/META-INF/spring/spring-orm.xml",
         "classpath:/META-INF/spring/spring-task.xml",
         "classpath:/META-INF/spring/spring-tx.xml",
-        "classpath:/META-INF/spring-data/spring-data-jpa.xml",*/
+        "classpath:/META-INF/spring-data/spring-data-jpa.xml"
 })
 //@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class TestConfiguration {

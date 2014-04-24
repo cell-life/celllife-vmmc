@@ -28,11 +28,6 @@
         <property name="applicationContextSchedulerContextKey" value="applicationContext" />
         <property name="quartzProperties" ref="quartzProperties" />
         <property name="taskExecutor" ref="quartzTaskExecutor" />
-        <!--<property name="triggers">
-            <list>
-                <ref bean="processCampFinishTrigger" />
-            </list>
-        </property>-->
         <property name="jobDetails">
             <list>
                 <ref bean="relativeCampaignJobRunner" />

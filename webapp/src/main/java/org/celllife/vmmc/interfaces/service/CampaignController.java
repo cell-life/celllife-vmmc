@@ -5,8 +5,6 @@ import org.celllife.ivr.application.message.CampaignMessageService;
 import org.celllife.ivr.domain.campaign.Campaign;
 import org.celllife.ivr.domain.campaign.CampaignDto;
 import org.celllife.ivr.domain.campaign.CampaignStatus;
-import org.celllife.ivr.domain.campaign.CampaignType;
-import org.celllife.ivr.domain.exception.IvrException;
 import org.celllife.ivr.domain.message.CampaignMessage;
 import org.celllife.ivr.domain.message.CampaignMessageDto;
 import org.slf4j.Logger;

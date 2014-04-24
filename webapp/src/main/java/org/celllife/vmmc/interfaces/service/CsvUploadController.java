@@ -4,10 +4,8 @@ import org.celllife.ivr.application.campaign.CampaignService;
 import org.celllife.ivr.application.contact.ContactService;
 import org.celllife.ivr.application.verboice.VerboiceApplicationService;
 import org.celllife.ivr.domain.campaign.Campaign;
-import org.celllife.ivr.domain.campaign.CampaignDto;
 import org.celllife.ivr.domain.contact.Contact;
 import org.celllife.ivr.domain.contact.FailedContactDto;
-import org.celllife.ivr.domain.exception.IvrException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvMapReader;
-import org.supercsv.io.ICsvMapReader;
 import org.supercsv.prefs.CsvPreference;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CsvUploadController {
