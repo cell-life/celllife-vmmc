@@ -3,7 +3,6 @@ package org.celllife.vmmc.interfaces.service;
 import org.celllife.ivr.application.calllog.CallLogService;
 import org.celllife.ivr.application.utils.JsonUtils;
 import org.celllife.ivr.domain.callog.CallLog;
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
@@ -51,12 +50,9 @@ public class CallLogController {
                 "        <variable name=\"service_domain\" display-name=\"Service Domain\" type=\"string\"/>\n" +
                 "    </global-settings>\n" +
                 "    <steps>\n" +
-                "        <step name=\"password_details\" display-name=\"Send Password Details\" icon=\"dummy\" type=\"callback\" callback-url=\"" + externalBaseUrl + "/verboice-service/passwordCallback\">\n" +
+                "        <step name=\"password_details\" display-name=\"Send Password Details\" icon=\"report\" type=\"callback\" callback-url=\"" + externalBaseUrl + "/verboice-service/passwordCallback\">\n" +
                 "            <settings>\n" +
                 "                <variable name=\"passwordEntered\" display-name=\"Password Entered\" type=\"string\"/>\n" +
-                "                <variable name=\"campaignId\" display-name=\"Campaign Id\" type=\"string\"/>\n" +
-                "                <variable name=\"messageNumber\" display-name=\"Message Number\" type=\"string\"/>\n" +
-                "                <variable name=\"msisdn\" display-name=\"Msisdn Number\" type=\"string\"/>\n" +
                 "            </settings>\n" +
                 "            <response type=\"none\"/>\n" +
                 "        </step>\n" +
@@ -72,25 +68,40 @@ public class CallLogController {
 
         log.debug("Received password update from Verboice: " + requestBody);
 
-        Map<String, String> responseVariables = new HashMap<>();
+        Map<String, String> passwordVariables = parseVerboiceData(requestBody);
+
+        Long verboiceCallId = 0L;
+
         try {
-            responseVariables = jsonUtils.extractJsonVariables("{\"response\":" + requestBody + "}");
-        } catch (JSONException e) {
-            log.warn("Could not extract JSON variables from Verboice response " + requestBody);
+            verboiceCallId = Long.valueOf(passwordVariables.get("CallSid"));
+        } catch (NumberFormatException e) {
+            log.warn("Could not not detect 'CallSid' variable in verboice server response " + requestBody + ".");
+            return;
         }
 
-        String passwordEntered = responseVariables.get("passwordEntered");
-        Integer verboiceProjectId = Integer.valueOf(responseVariables.get("verboiceProjectId"));
-        Integer messageNumber = Integer.valueOf(responseVariables.get("messageNumber"));
-        String msisdn = responseVariables.get("msisdn");
-
-        CallLog callLog = callLogService.findCallLogByVerboiceIdAndMsisdnAndMessageNumber(verboiceProjectId, msisdn, messageNumber);
+        CallLog callLog = callLogService.findCallLogByVerboiceId(verboiceCallId);
 
         if ((callLog != null)) {
-            callLog.setPasswordEntered(passwordEntered);
+            callLog.setPasswordEntered(passwordVariables.get("passwordEntered"));
             callLogService.saveCallLog(callLog);
+        } else {
+            log.warn("Could not update call log because the log id " + verboiceCallId + " could not be found. ");
         }
 
+    }
+
+    /**
+     * Source: http://stackoverflow.com/questions/13592236/parse-the-uri-string-into-name-value-collection-in-java
+     */
+    Map<String, String> parseVerboiceData(String request) {
+
+            Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+            String[] pairs = request.split("&");
+            for (String pair : pairs) {
+                int idx = pair.indexOf("=");
+                query_pairs.put(pair.substring(0, idx), pair.substring(idx + 1));
+            }
+            return query_pairs;
     }
 
 
