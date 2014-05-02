@@ -24,6 +24,7 @@
     </security:http>
     
     <security:http pattern="/resources/**" security='none' />
+    <security:http pattern="/verboice-service/**" security='none' />
 
     <security:http authentication-manager-ref="casAuthenticationManager"
                    entry-point-ref="casEntryPoint"

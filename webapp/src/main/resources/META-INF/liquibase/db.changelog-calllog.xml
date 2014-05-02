@@ -20,4 +20,16 @@
 		</createTable>
 	</changeSet>
 
+    <changeSet author="dine@cell-life.org" id="callog-2" >
+        <addColumn tableName="call_log">
+            <column name="password_entered" type="VARCHAR(15)" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="dine@cell-life.org" id="callog-3" >
+        <addColumn tableName="call_log">
+            <column name="verboice_project_id" type="INT" />
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
