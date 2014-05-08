@@ -50,7 +50,7 @@ public class CallLogController {
                 "        <variable name=\"service_domain\" display-name=\"Service Domain\" type=\"string\"/>\n" +
                 "    </global-settings>\n" +
                 "    <steps>\n" +
-                "        <step name=\"password_details\" display-name=\"Send Password Details\" icon=\"task\" type=\"callback\" callback-url=\"" + externalBaseUrl + "/verboice-service/passwordCallback\">\n" +
+                "        <step name=\"password_details\" display-name=\"Send Password Details\" icon=\"flag\" type=\"callback\" callback-url=\"" + externalBaseUrl + "/verboice-service/passwordCallback\">\n" +
                 "            <settings>\n" +
                 "                <variable name=\"passwordEntered\" display-name=\"Password Entered\" type=\"string\"/>\n" +
                 "            </settings>\n" +
@@ -63,6 +63,7 @@ public class CallLogController {
 
     }
 
+    @ResponseBody
     @RequestMapping(value = "/verboice-service/passwordCallback", method = RequestMethod.POST)
     public void updateCallLog(@RequestBody String requestBody) {
 
