@@ -69,6 +69,13 @@
             <div id="importPage">
 
                 <h3>Add Contacts To Campaign</h3>
+                <ul>
+                    <li>Note that imported files must be CSV format
+                    <li>Columns must be labelled MSISDN and Password
+                    <li>Numbers must begin with 27 (not 0) and must be 11 characters in length
+                    <li>Special characters (e.g the + symbol) will cause the import to fail
+                </ul>
+
                 <br>
 
                 <div id="successMessage" class="alert alert-success">(placeholder)</div>
