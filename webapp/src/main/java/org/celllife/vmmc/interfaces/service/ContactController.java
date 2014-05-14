@@ -49,6 +49,8 @@ public class ContactController {
             contact.setPassword(contactDto.getPassword());
         if (contactDto.getProgress() != null)
             contact.setProgress(contactDto.getProgress());
+        if (contactDto.getVoided() != null)
+            contact.setVoided(contactDto.getVoided());
         if (contactDto.getCampaignId() != null)
             throw new Exception("You cannot change the campaign ID of a contact. Rather add a new contact.");
 
