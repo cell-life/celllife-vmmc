@@ -470,7 +470,7 @@
             <dependency>
                 <groupId>org.celllife.ivr</groupId>
                 <artifactId>celllife-ivr-core</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <!-- Cell Life Reports -->

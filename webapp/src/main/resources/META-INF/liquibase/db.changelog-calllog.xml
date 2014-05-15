@@ -32,4 +32,13 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="dine@cell-life.org" id="calllog-4">
+        <addColumn tableName="call_log">
+            <column name="retry_done" type="BOOLEAN" value="0"/>
+        </addColumn>
+        <addColumn tableName="call_log">
+            <column name="attempt" type="INT" />
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

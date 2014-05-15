@@ -19,6 +19,30 @@
         <property name="jobClass" value="org.celllife.ivr.application.jobs.RelativeCampaignJobRunner" />
     </bean>
 
+    <!-- CHECK FOR FAILED CALLS AND RETRY -->
+    <bean name="retryCallsJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="volatility" value="false"/>
+        <property name="group" value="backgroundServices" />
+        <property name="name" value="findFailedCallsAndRetry" />
+        <property name="jobClass" value="org.celllife.ivr.application.jobs.BeanMethodInvokerJob" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="beanName" value="backgroundServices" />
+                <entry key="methodName" value="findFailedCallsAndRetry" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="retryCallsTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="volatility" value="true"/>
+        <property name="group" value="backgroundServices" />
+        <property name="jobDetail" ref="retryCallsJob" />
+        <!-- 60 seconds -->
+        <property name="startDelay" value="60000" />
+        <!-- repeat every hour -->
+        <property name="repeatInterval" value="300000" />
+    </bean>
+
     <bean id="qrtzScheduler"
           class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="destroy">
         <property name="exposeSchedulerInRepository" value="true" />
@@ -32,6 +56,9 @@
             <list>
                 <ref bean="relativeCampaignJobRunner" />
             </list>
+        </property>
+        <property name="triggers">
+            <ref bean="retryCallsTrigger" />
         </property>
     </bean>
 
