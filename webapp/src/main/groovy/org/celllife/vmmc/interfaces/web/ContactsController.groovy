@@ -23,6 +23,9 @@ public class ContactsController {
         def campaigns = org.celllife.vmmc.framework.restclient.RESTClient.get("${externalBaseUrl}/service/campaigns")
         model.put("campaigns", campaigns)
 
+        def reports = org.celllife.vmmc.framework.restclient.RESTClient.get("${externalBaseUrl}/service/reports")
+        model.put("reports", reports)
+
         return "index";
 
     }
