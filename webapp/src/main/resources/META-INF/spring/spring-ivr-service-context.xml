@@ -40,7 +40,7 @@
         <!-- 60 seconds -->
         <property name="startDelay" value="60000" />
         <!-- repeat every hour -->
-        <property name="repeatInterval" value="300000" />
+        <property name="repeatInterval" value="3600000" />
     </bean>
 
     <bean id="qrtzScheduler"
