@@ -124,7 +124,7 @@ public class CampaignController {
     public Collection<CampaignMessageDto> setMessagesForCampaign(@RequestBody List<CampaignMessageDto> campaignMessages, @PathVariable Long campaignId, HttpServletResponse response) throws Exception {
 
         for(CampaignMessageDto campaignMessage : campaignMessages){
-            DateFormat formatter = new SimpleDateFormat("hh:mm");
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
             try {
                 Date date = (Date)formatter.parse(campaignMessage.getMessageTimeOfDay());
             } catch (ParseException e) {
