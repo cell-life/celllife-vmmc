@@ -13,10 +13,11 @@
     <c:set var="url">${pageContext.request.requestURL}</c:set>
     <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/"/>
 
-    <link href="resources/css/vmmc.css" rel="stylesheet">
+    
 
     <link href="resources/css/bootstrap-3.0.2.css" rel="stylesheet" media="screen">
     <link href="resources/css/bootstrap-theme-3.0.2.css" rel="stylesheet">
+	<link href="resources/css/vmmc.css" rel="stylesheet">
 </head>
 <body>
 
@@ -24,7 +25,7 @@
 
     <div class="header">
         <ul class="nav nav-pills pull-right">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="http://sol.cell-life.org/vmmc/">Home</a></li>
             <li><a href="j_spring_cas_security_logout">Logout</a>
         </ul>
         <h2><img class="ohsc-logo" src="resources/img/logo.png"></h2>
@@ -37,24 +38,9 @@
 
     <div class="row">
 
-        <div class="col-md-2">
+           <div class="col-md-2">
 
-            <h4>
-                <a href="#" class="active reportLink" id="side_btn">
-                    <button type="button" class="btn btn-primary" onclick="ShowImportPage()" id="side_btn">Import
-                        Contacts
-                    </button>
-                </a>
-            </h4>
-
-
-            <h4>
-                <a href="#" class="active reportLink">
-                    <button type="button" class="btn btn-primary" onclick="ShowReportsPage()" id="side_btn">Reports
-                    </button>
-                </a>
-            </h4>
-
+        
         </div>
 
         <div class="col-md-2">
@@ -65,15 +51,17 @@
             <p>
                 <c:out value="${errorMessage}"/>
             </p>
-            <hr>
+          
         </div>
 
     </div>
+	
+	<hr>
+	
     <div class="footer">
         <p>&copy; Cell-Life (NPO) - 2014</p>
     </div>
-
-</div>
+	</div>
 
 </body>
 </html>

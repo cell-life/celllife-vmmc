@@ -41,8 +41,8 @@
         <div class="col-md-2">
 
             <h4>
-                <a href="#" class="active reportLink" id="side_btn">
-                    <button type="button" class="btn btn-primary" onclick="ShowImportPage()" id="side_btn">Import
+                <a href="#" class="active" id="side_btn_link">
+                    <button type="button" class="btn btn-primary" onclick="ShowImportPage()" id="side_btn_1">Import
                         Contacts
                     </button>
                 </a>
@@ -50,8 +50,8 @@
 
 
             <h4>
-                <a href="#" class="active reportLink">
-                    <button type="button" class="btn btn-primary" onclick="ShowReportsPage()" id="side_btn">Reports
+                <a href="#" class="active">
+                    <button type="button" class="btn btn-primary" onclick="ShowReportsPage()" id="side_btn_2">Reports
                     </button>
                 </a>
             </h4>
@@ -62,7 +62,7 @@
         </div>
 
 
-        <div class="col-md-8 form">
+        <div class="col-md-8">
 
             <div id="welcomeMessage"><h2>Welcome to the IVR Systems Dashboard.</h2></div>
 
@@ -115,22 +115,15 @@
 
             <div id="chooseReport">
                 <h3>Which report would you like to generate?</h3>
-                <a href="#Overall" onclick="ShowReportsPage1()">
-                    <h4>Overall report</h4>
-                </a>
-                <a href="#MSISDN" onclick="ShowReportsPage2()">
-                    <h4>MSISDN report</h4>
-                </a>
+                <c:forEach items="${reports}" var="report">
+                    <a href="#${report.id}" class="active reportLink" >
+                        <h4 onclick="ShowMSISDNPage()">${report.label}</h4>
+                    </a>
+                </c:forEach>
             </div>
+			<div class="col-md-8 form" id="report_1">
 
-            <div id="ReportsPage1">
-                <h4>Overall reports generator here</h4>
-            </div>
-
-            <div id="ReportsPage2">
-                <h4>MSISDN reports generator here</h4>
-            </div>
-
+        </div>
         </div>
     </div>
 
@@ -147,8 +140,16 @@
 
         $("#successMessage").hide();
         $("#failureMessage").hide();
+        $("#importPage").hide();
+        $("#chooseReport").hide();
+        $("#topWelcome").hide();
+		$("#report_1").hide();
+		
+      
+		
+		
 
-        $('#uploadForm').submit(function(event){
+        $('#uploadForm').submit(function (event) {
 
             event.preventDefault();
 
@@ -197,27 +198,39 @@
             });
 
         });
+		
+        $(".reportLink").click(function (e) {
+
+            e.preventDefault();
+
+            var reportId = $(this).attr('href') + '';
+            reportId = reportId.replace('#', '');
+
+            $.get(
+                    "service/getHtml",
+                    {reportId: reportId},
+                    function (data) {
+                        $(".form").html(data);
+
+                        $(".form").on('submit', function (e) {
+                            e.preventDefault();
+                            window.location = "service/downloadReport" + "?reportId=" + reportId + "&" + $("form").serialize();
+                        });
+                    }
+            );
+
+        });
 
     });
 
-    $(document).ready(function () {
-        $("#successMessage").hide();
-        $("#failureMessage").hide();
-        $("#importPage").hide();
-        $("#chooseReport").hide();
-        $("#topWelcome").hide();
-        $("#ReportsPage1").hide();
-        $("#ReportsPage2").hide();
-
-    });
     function ShowImportPage() {
         $("#importPage").show();
         $("#chooseReport").hide();
         $("#topWelcome").show();
         $("#welcomeMessage").hide();
-        $("#ReportsPage1").hide();
-        $("#ReportsPage2").hide();
-    }
+		$("#report_1").hide();
+        
+    };
 
 
     function ShowReportsPage() {
@@ -225,27 +238,20 @@
         $("#chooseReport").show();
         $("#topWelcome").show();
         $("#welcomeMessage").hide();
-        $("#ReportsPage1").hide();
-        $("#ReportsPage2").hide();
-    }
+		$("#report_1").hide();
+		
+    };
+	
+	function ShowMSISDNPage(){
+	  $("#importPage").hide();
+      $("#chooseReport").hide();
+	  $("#topWelcome").show();
+      $("#welcomeMessage").hide();
+	  $("#report_1").show();
+	
+	}
+	
 
-    function ShowReportsPage1() {
-        $("#importPage").hide();
-        $("#chooseReport").hide();
-        $("#topWelcome").show();
-        $("#welcomeMessage").hide();
-        $("#ReportsPage1").show();
-        $("#ReportsPage2").hide();
-    }
-
-    function ShowReportsPage2() {
-        $("#importPage").hide();
-        $("#chooseReport").hide();
-        $("#topWelcome").show();
-        $("#welcomeMessage").hide();
-        $("#ReportsPage1").hide();
-        $("#ReportsPage2").show();
-    }
 
 </script>
 
