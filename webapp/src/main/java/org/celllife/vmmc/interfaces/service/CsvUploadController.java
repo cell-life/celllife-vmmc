@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.exception.SuperCsvConstraintViolationException;
 import org.supercsv.io.CsvMapReader;
 import org.supercsv.prefs.CsvPreference;
 
@@ -67,19 +68,25 @@ public class CsvUploadController {
         List<Contact> contactList = new ArrayList<>();
 
         contactMap = mapReader.read(header, processors);
-        if ( (!contactMap.get("msisdn").toString().equalsIgnoreCase("msisdn")) || (!contactMap.get("password").toString().equalsIgnoreCase("password"))) {
+        if (contactMap == null) {
+            throw new Exception("CSV file is blank.");
+        } else if ( (!contactMap.get("msisdn").toString().equalsIgnoreCase("msisdn")) || (!contactMap.get("password").toString().equalsIgnoreCase("password"))) {
             throw new Exception("The column headers must be 'msisdn' and 'password'.");
         }
 
-        while ((contactMap = mapReader.read(header, processors)) != null) {
-            String msisdn = contactMap.get("msisdn").toString();
-            String password = contactMap.get("password").toString();
-            if (msisdn.matches(validationRegex)) {
-                Contact contact = new Contact(msisdn, password, campaign.getId(), 0);
-                contactList.add(contact);
-            } else {
-                failedContactDtos.add(new FailedContactDto(msisdn, "Number format is invalid. The number should start with 27."));
+        try {
+            while ((contactMap = mapReader.read(header, processors)) != null) {
+                String msisdn = contactMap.get("msisdn").toString();
+                String password = contactMap.get("password").toString();
+                if (msisdn.matches(validationRegex)) {
+                    Contact contact = new Contact(msisdn, password, campaign.getId(), 0);
+                    contactList.add(contact);
+                } else {
+                    failedContactDtos.add(new FailedContactDto(msisdn, "Number format is invalid. The number should consist of 11 digits and be in the format 27721234567."));
+                }
             }
+        } catch (SuperCsvConstraintViolationException e) {
+            failedContactDtos.add(new FailedContactDto("", "Number format is invalid. The number should not be blank."));
         }
 
         List<String> locallyFailedNumbers = contactService.saveContacts(contactList);
@@ -92,7 +99,6 @@ public class CsvUploadController {
         return failedContactDtos;
 
     }
-
 
     private static CellProcessor[] getProcessors() {
 
