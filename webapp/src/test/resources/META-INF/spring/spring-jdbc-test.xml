@@ -22,13 +22,9 @@
         <property name="testConnectionOnCheckout" value="${c3p0.test_connection_on_checkout}" />
     </bean>
 
-    <bean id="findMessageStatuses" class="org.celllife.ivr.application.utils.FindMessageStatusesProcedure">
-        <constructor-arg><ref bean="dataSource"/></constructor-arg>
-    </bean>
-
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase"  >
         <property name="dataSource" ref="dataSource"/>
-        <property name="changeLog" value="classpath:/META-INF/liquibase/db.changelog-master.xml" />
+        <property name="changeLog" value="classpath:/META-INF/liquibase/db.changelog-master-test.xml" />
     </bean>
 
 </beans>

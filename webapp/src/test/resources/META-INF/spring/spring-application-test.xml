@@ -5,10 +5,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:annotation-config/>
+
     <context:component-scan base-package="org.celllife.vmmc.application"/>
     <context:component-scan base-package="org.celllife.vmmc.framework"/>
 
-    <context:component-scan base-package="org.celllife.ivr.application"/>
-    <context:component-scan base-package="org.celllife.ivr.framework"/>
+    <bean id="driverDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <!-- database connection -->
+        <property name="url" value="jdbc:mysql://localhost:3306/vmmc?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+
 
 </beans>

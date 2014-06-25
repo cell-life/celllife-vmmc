@@ -2,7 +2,7 @@ package org.celllife.vmmc.interfaces.service;
 
 import org.celllife.ivr.application.calllog.CallLogService;
 import org.celllife.ivr.application.utils.JsonUtils;
-import org.celllife.ivr.domain.callog.CallLog;
+import org.celllife.ivr.domain.calllog.CallLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
