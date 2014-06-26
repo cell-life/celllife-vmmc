@@ -41,4 +41,19 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="dine@cell-life.org" id="calllog-5">
+        <addColumn tableName="call_log">
+            <column name="campaign_id" type="BIGINT"/>
+        </addColumn>
+
+    </changeSet>
+
+    <changeSet author="dine@cell-life.org" failOnError="false" id="calllog-6">
+    <sql splitStatements="false" stripComments="false">
+        update vmmc.campaign camp, vmmc.call_log cl
+        set cl.campaign_id = camp.id
+        where camp.call_flow_name = cl.call_flow_name;
+    </sql>
+    </changeSet>
+
 </databaseChangeLog>
