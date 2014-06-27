@@ -1,12 +1,16 @@
 package org.celllife.vmmc.interfaces.service;
 
+import org.celllife.ivr.application.campaign.CampaignService;
 import org.celllife.ivr.application.utils.FindMessageStatusesProcedure;
 import org.celllife.pconfig.model.FileType;
 import org.celllife.pconfig.model.Pconfig;
 import org.celllife.reporting.service.PconfigParameterHtmlService;
 import org.celllife.reporting.service.ReportService;
 import org.celllife.reporting.service.impl.PconfigParameterHtmlServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedCaseInsensitiveMap;
@@ -30,11 +34,14 @@ public class ReportsController {
     private ReportService reportService;
 
     @Autowired
+    private CampaignService campaignService;
+
+    @Autowired
     FindMessageStatusesProcedure findMessageStatusesProcedure;
 
     private PconfigParameterHtmlService pconfigParameterHtmlService = new PconfigParameterHtmlServiceImpl();
 
-    //private static Logger log = LoggerFactory.getLogger(ReportsController.class);
+    private static Logger log = LoggerFactory.getLogger(ReportsController.class);
 
     @ResponseBody
     @RequestMapping(
@@ -60,14 +67,27 @@ public class ReportsController {
 
     @ResponseBody
     @RequestMapping(value = "/service/downloadCSVReport", method = RequestMethod.GET)
-    public void downloadCSVReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void downloadCSVReport(HttpServletRequest request, HttpServletResponse response,@RequestParam("campaignName") String campaignName) throws Exception {
+
+        Long id = campaignService.findCampaignByName(campaignName).get(0).getId();
+        Map<String, Object> parameters = new HashMap<>();
+        List<LinkedCaseInsensitiveMap<String>> rows;
+        Integer numberOfMessages;
 
         //run the MySQL stored procedure FindMessageStatusesProcedure()
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        Map<String, Object> results = findMessageStatusesProcedure.execute(parameters);
-        List<LinkedCaseInsensitiveMap<String>> rows = (List<LinkedCaseInsensitiveMap<String>>) results.get("#result-set-1");
-        Integer numberOfMessages = rows.get(0).size() - 1;
+        parameters.put("camp",id);
+        Map<String, Object> results;
+        try {
+            results = findMessageStatusesProcedure.execute(parameters);
+            rows = (List<LinkedCaseInsensitiveMap<String>>) results.get("#result-set-1");
+            numberOfMessages = rows.get(0).size() - 1;
+        } catch (DataIntegrityViolationException e) {
+            rows = new ArrayList<>();
+            numberOfMessages = 0;
+            log.info("No data found for Msisdn report of campaign " + campaignName);
+        }
 
+        //set up response
         response.setContentType("application/csv");
         response.setHeader("Content-Disposition", "attachment; filename=\"msisdnReport" + new Date() + ".csv\"");
         OutputStream responseOutputStream = response.getOutputStream();
@@ -109,8 +129,8 @@ public class ReportsController {
         } else {
 
             Pconfig pconfig = reportService.getReportByName(reportId);
-            FileType fileType = FileType.PDF;
-            String fileExtension = "pdf";
+            FileType fileType;
+            String fileExtension;
 
             switch (pconfig.getParameter("file_type").getValue().toString().toLowerCase()) {
                 case "csv":
@@ -130,8 +150,8 @@ public class ReportsController {
             Pconfig returnedPconfig = pconfigParameterHtmlService.createPconfigFromHtmlFormSubmission(
                     request.getParameterNames(), request.getParameterMap(), pconfig);
 
-            String generatedReport = null;
-            File reportFile = null;
+            String generatedReport;
+            File reportFile;
             try {
                 generatedReport = reportService.generateReport(returnedPconfig, fileType);
                 reportFile = reportService.getGeneratedReportFile(generatedReport);

@@ -115,6 +115,8 @@
 
             <div id="chooseReport">
                 <h3>Which report would you like to generate?</h3>
+                <br>
+                <h4><a href="#msisdn" onclick="showParameters()">Msisdn Report</a></h4>
                 <c:forEach items="${reports}" var="report">
                     <a href="#${report.id}" class="active reportLink" >
                         <h4 onclick="ShowMSISDNPage()">${report.label}</h4>
@@ -122,10 +124,31 @@
                 </c:forEach>
             </div>
 			<div class="col-md-8 form" id="report_1">
+            </div>
+
+            <div class="col-md-8" id="report_msisdn">
+                <form role="form" class="form-horizontal" enctype="multipart/form-data" id="uploadMsisdnReportForm">
+
+                    <div class="form-group">
+                        <label for="campaignName2">Campaign Name:</label>
+
+                            <select id="campaignName2" name="campaignName2" class="form-control" required>
+                                <c:forEach items="${campaigns}" var="campaign">
+                                    <option>${campaign.name}</option>
+                                </c:forEach>
+                            </select>
+
+                    </div>
+
+                    <div class="form-group">
+                            <button id="uploadButtonMsisdnReport" class="btn btn-default" type="submit">Run Report</button>
+                    </div>
+                </form>
+            </div>
 
         </div>
-        </div>
     </div>
+
 
     <hr>
 
@@ -144,10 +167,7 @@
         $("#chooseReport").hide();
         $("#topWelcome").hide();
 		$("#report_1").hide();
-		
-      
-		
-		
+        $("#report_msisdn").hide();
 
         $('#uploadForm').submit(function (event) {
 
@@ -198,7 +218,15 @@
             });
 
         });
-		
+
+        $('#uploadMsisdnReportForm').submit(function (event) {
+
+            event.preventDefault();
+
+            window.location = "service/downloadCSVReport?campaignName=" + document.querySelector('#campaignName2').value;
+
+        });
+
         $(".reportLink").click(function (e) {
 
             e.preventDefault();
@@ -223,14 +251,22 @@
 
     });
 
+    function showParameters() {
+        $("#chooseReport").hide();
+        $("#report_1").hide();
+        $("#welcomeMessage").hide();
+        $("#importPage").hide();
+        $("#report_msisdn").show();
+    }
+
     function ShowImportPage() {
         $("#importPage").show();
         $("#chooseReport").hide();
         $("#topWelcome").show();
         $("#welcomeMessage").hide();
-		$("#report_1").hide();
-        
-    };
+        $("#report_1").hide();
+        $("#report_msisdn").hide();
+    }
 
 
     function ShowReportsPage() {
@@ -238,20 +274,18 @@
         $("#chooseReport").show();
         $("#topWelcome").show();
         $("#welcomeMessage").hide();
-		$("#report_1").hide();
-		
-    };
-	
-	function ShowMSISDNPage(){
-	  $("#importPage").hide();
-      $("#chooseReport").hide();
-	  $("#topWelcome").show();
-      $("#welcomeMessage").hide();
-	  $("#report_1").show();
-	
-	}
-	
+        $("#report_1").hide();
+        $("#report_msisdn").hide();
+    }
 
+    function ShowMSISDNPage() {
+        $("#importPage").hide();
+        $("#chooseReport").hide();
+        $("#topWelcome").show();
+        $("#welcomeMessage").hide();
+        $("#report_1").show();
+        $("#report_msisdn").hide();
+    }
 
 </script>
 

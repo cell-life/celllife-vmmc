@@ -38,7 +38,7 @@
 
     <!-- Liquibase -->
 
-    <logger name="liquibase" level="WARN" />
+    <logger name="liquibase" level="INFO" />
 
     <!-- Root -->
 
