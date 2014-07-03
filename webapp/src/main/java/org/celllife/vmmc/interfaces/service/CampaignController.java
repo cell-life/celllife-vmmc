@@ -128,7 +128,7 @@ public class CampaignController {
             try {
                 Date date = (Date)formatter.parse(campaignMessage.getMessageTimeOfDay());
             } catch (ParseException e) {
-                throw new Exception("An error occurred. Message times must be in the format hh:mm.");
+                throw new Exception("An error occurred. Message times must be in the format HH:mm.");
             }
         }
 

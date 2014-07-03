@@ -2,6 +2,7 @@ package org.celllife.vmmc.interfaces.service;
 
 import org.celllife.ivr.application.campaign.CampaignService;
 import org.celllife.ivr.application.utils.FindMessageStatusesProcedure;
+import org.celllife.ivr.domain.campaign.Campaign;
 import org.celllife.pconfig.model.FileType;
 import org.celllife.pconfig.model.Pconfig;
 import org.celllife.reporting.service.PconfigParameterHtmlService;
@@ -56,13 +57,42 @@ public class ReportsController {
     @RequestMapping(value = "/service/getHtml", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getHtmlForReport(@RequestParam("reportId") String reportId) throws Exception {
         Pconfig pconfig;
-        try {
-            pconfig = reportService.getReportByName(reportId);
-        } catch (Exception e) {
-            return "No such Report.";
+        if (reportId.equals("overview") ) {
+            List<Campaign> campaigns = campaignService.getAllCampaigns();
+            String campaignString = "";
+            for (Campaign campaign : campaigns) {
+                campaignString = campaignString + "<option>" + campaign.getName() + "</option>";
+            }
+            String htmlString = "<h2>Overview</h2>" +
+                    "<form role=\"form\">" +
+                    "<div class=\"form-group\">" +
+                    "<label for=start_date>Start date</label>" +
+                    "<input id=start_date name=start_date placeholder=\"yyyy-mm-dd\" type=date class=\"form-control\">" +
+                    "</div>" +
+                    "<div class=\"form-group\">If not set the start date will default to the beginning of the current month.</div>" +
+                    "<div class=\"form-group\">" +
+                    "<label for=end_date>End date</label>" +
+                    "<input id=end_date name=end_date placeholder=\"yyyy-mm-dd\" type=date class=\"form-control\">" +
+                    "</div>" +
+                    "<div class=\"form-group\">If not set the end date will default to the end of the current month.</div>" +
+                    "<div class=\"form-group\">" +
+                        "<label for=\"campaign_name\" >Campaign Name:</label>" +
+                            "<select id=\"campaign_name\" name=\"campaign_name\" class=\"form-control\" required>" +
+                            campaignString +
+                            "</select>" +
+                    "</div>" +
+                    "<button type=\"submit\" class=\"btn btn-default\" id=\"submitButton\">Run Report</button>" +
+                    "</form>";
+            return htmlString;
+        } else {
+            try {
+                pconfig = reportService.getReportByName(reportId);
+            } catch (Exception e) {
+                return "No such Report.";
+            }
+            String htmlString = pconfigParameterHtmlService.createHtmlFieldsFromPconfig(pconfig, "submitButton");
+            return htmlString;
         }
-        String htmlString = pconfigParameterHtmlService.createHtmlFieldsFromPconfig(pconfig, "submitButton");
-        return htmlString;
     }
 
     @ResponseBody
