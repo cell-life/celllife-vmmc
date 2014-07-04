@@ -53,6 +53,7 @@ public class ReportsController {
         return reportService.getReports();
     }
 
+    //TODO: need to find a more sophisticated way to do this, not just hard-coding html.
     @ResponseBody
     @RequestMapping(value = "/service/getHtml", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getHtmlForReport(@RequestParam("reportId") String reportId) throws Exception {

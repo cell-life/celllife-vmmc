@@ -72,9 +72,9 @@ FROM vmmc.call_log cl, vmmc.campaign c where date between $P{start_date} and $P{
 		<variableExpression><![CDATA[new Float($V{total_unknown_messages}/$V{total_participant_messages})]]></variableExpression>
 	</variable>
 	<title>
-		<band height="123" splitType="Stretch">
+		<band height="124" splitType="Stretch">
 			<staticText>
-				<reportElement style="report_title" mode="Transparent" x="1" y="67" width="555" height="56" forecolor="#000000" uuid="7a9ac474-6007-4e2c-9dd8-9de774ff5777"/>
+				<reportElement style="report_title" mode="Transparent" x="1" y="67" width="555" height="25" forecolor="#000000" uuid="7a9ac474-6007-4e2c-9dd8-9de774ff5777"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
@@ -99,6 +99,14 @@ FROM vmmc.call_log cl, vmmc.campaign c where date between $P{start_date} and $P{
 				<reportElement x="1" y="1" width="214" height="66" uuid="43707e74-1580-412b-a2a5-8f3e1673f73f"/>
 				<imageExpression><![CDATA[$P{SUBREPORT_DIR} + "logo.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="0" y="92" width="555" height="20" uuid="4b59393f-6ef7-4985-bba1-82e938d9d32d"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{campaign_name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
