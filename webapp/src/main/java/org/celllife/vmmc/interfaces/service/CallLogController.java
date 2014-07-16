@@ -1,7 +1,6 @@
 package org.celllife.vmmc.interfaces.service;
 
 import org.celllife.ivr.application.calllog.CallLogService;
-import org.celllife.ivr.application.utils.JsonUtils;
 import org.celllife.ivr.domain.calllog.CallLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +20,6 @@ public class CallLogController {
 
     @Autowired
     CallLogService callLogService;
-
-    JsonUtils jsonUtils = new JsonUtils();
 
     @Value("${external.base.url}")
     String externalBaseUrl;

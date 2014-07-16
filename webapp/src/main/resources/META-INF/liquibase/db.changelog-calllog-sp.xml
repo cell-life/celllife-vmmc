@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet author="dine@cell-life.org" id="callog-sp-1" failOnError="false">
+    <changeSet author="dine@cell-life.org" id="callog-sp-1" failOnError="false" context="prod">
         <comment>Making the procedure campaign dependant.</comment>
         <sql>DROP PROCEDURE IF EXISTS findMessageStatuses;</sql>
         <sql splitStatements="false" stripComments="false">

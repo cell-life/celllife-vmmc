@@ -24,7 +24,8 @@
 
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase"  >
         <property name="dataSource" ref="dataSource"/>
-        <property name="changeLog" value="classpath:/META-INF/liquibase/db.changelog-master-test.xml" />
+        <property name="changeLog" value="classpath:/META-INF/liquibase/db.changelog-master.xml" />
+        <property name="contexts" value="test"/>
     </bean>
 
 </beans>
