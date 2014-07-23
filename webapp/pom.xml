@@ -134,14 +134,17 @@
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>8.0.4.v20111024</version>
+                <version>8.1.14.v20131031</version>
                 <executions>
                     <execution>
-                        <id>jetty-run</id>
+                        <id>jetty-start</id>
                         <goals>
-                            <goal>run</goal>
+                            <goal>start</goal>
                         </goals>
                         <phase>pre-integration-test</phase>
+                         <configuration>
+ 	                         <scanIntervalSeconds>0</scanIntervalSeconds>
+                          </configuration>
                     </execution>
                     <execution>
                         <id>jetty-stop</id>
@@ -155,6 +158,8 @@
                     <daemon>${jetty.daemon}</daemon>
                     <stopKey>STOP</stopKey>
                     <stopPort>9001</stopPort>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>                     <stopKey>STOP</stopKey>
+					<stopWait>10</stopWait>
                     <webAppConfig>
                         <contextPath>/vmmc</contextPath>
                     </webAppConfig>
@@ -498,11 +503,18 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
         </dependency>
+        
+        <dependency>
+	             <groupId>javax.servlet</groupId>
+	             <artifactId>jsp-api</artifactId>
+	             <scope>provided</scope>
+         </dependency>
+        
 
         <!-- Tiles -->
 

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="overview_report" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" isSummaryWithPageHeaderAndFooter="true" uuid="a4645525-51e6-48a0-b118-6c27973dffcb">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VMMC"/>
 	<template><![CDATA[$P{SUBREPORT_DIR} + "report_style_template.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
@@ -17,14 +19,14 @@
 		<defaultValueExpression><![CDATA[(  $P{cal}.set(Calendar.DAY_OF_MONTH, $P{cal}.getActualMaximum(Calendar.DAY_OF_MONTH)) ) ? null : $P{cal}.getTime()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="campaign_name" class="java.lang.String"/>
-	<queryString>
+	<queryString language="SQL">
 		<![CDATA[SELECT cl.message_number as message,
 count(*) as total_participants,
 sum(case when (cl.password_entered is not null) and (cl.password=cl.password_entered) then 1 else 0 end) as total_accepted,
 sum(case when (cl.password_entered is not null) and (cl.password!=cl.password_entered) then 1 else 0 end) as total_incorrect_password,
 sum(case when (cl.password_entered is null) and (cl.state like '%busy%' or cl.state like '%no-answer%' or cl.state like '%completed%' or cl.state like '%failed%') then 1 else 0 end) as total_declined,
 sum(case when (cl.password_entered is null) and (cl.state like '%ringing%' or cl.state like '%waiting%' or cl.state like '%queued%') then 1 else 0 end) as total_unknown
-FROM vmmc.call_log cl, vmmc.campaign c where date between $P{start_date} and $P{end_date} and c.name=$P{campaign_name} and c.id=cl.campaign_id group by message;]]>
+FROM vmmc.call_log cl, vmmc.campaign c where date between $P{start_date} and $P{end_date} and c.name=$P{campaign_name} and c.id=cl.campaign_id and retry_done= 0 group by message;]]>
 	</queryString>
 	<field name="message" class="java.lang.Number"/>
 	<field name="total_participants" class="java.lang.Number"/>
@@ -662,7 +664,7 @@ FROM vmmc.call_log cl, vmmc.campaign c where date between $P{start_date} and $P{
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="194" width="555" height="12" uuid="97fbaeff-235c-4f6c-9a0c-aee6f220f936"/>
-				<text><![CDATA[Total Incorrect Password = All messages whose statuses are unclear. Please check detailed log for more info.]]></text>
+				<text><![CDATA[Total Other = All messages whose statuses are unclear. Please check detailed log for more info.]]></text>
 			</staticText>
 			<image>
 				<reportElement x="0" y="219" width="214" height="66" uuid="da4f1135-e305-4db1-a4a9-414b995e2a6b"/>
