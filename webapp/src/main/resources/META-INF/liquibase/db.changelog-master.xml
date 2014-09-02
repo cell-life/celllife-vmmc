@@ -7,10 +7,10 @@
 
     <include file="db.changelog-hibernate.xml" relativeToChangelogFile="true"/>
 
+    <include file="db.changelog-campaign.xml" relativeToChangelogFile="true"/>
     <include file="db.changelog-contact.xml" relativeToChangelogFile="true"/>
     <include file="db.changelog-calllog.xml" relativeToChangelogFile="true"/>
     <include file="db.changelog-calllog-sp.xml" relativeToChangelogFile="true"/>
-    <include file="db.changelog-campaign.xml" relativeToChangelogFile="true"/>
     <include file="db.changelog-campaign-message.xml" relativeToChangelogFile="true"/>
     <include file="db.changelog-quartz.xml" relativeToChangelogFile="true"/>
 
