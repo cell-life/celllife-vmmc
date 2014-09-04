@@ -42,8 +42,8 @@
 
     <!-- Root -->
 
-    <root level="WARN">
-        <appender-ref ref="STDOUT" />
+    <root level="WARN" >
+        <appender-ref ref="FILE" />
     </root>
 
 </configuration>
