@@ -89,6 +89,7 @@ public class ReportsController {
             try {
                 pconfig = reportService.getReportByName(reportId);
             } catch (Exception e) {
+                log.warn("Report with id " + reportId + " not found.", e);
                 return "No such Report.";
             }
             String htmlString = pconfigParameterHtmlService.createHtmlFieldsFromPconfig(pconfig, "submitButton");
@@ -115,7 +116,7 @@ public class ReportsController {
         } catch (DataIntegrityViolationException e) {
             rows = new ArrayList<>();
             numberOfMessages = 0;
-            log.info("No data found for Msisdn report of campaign " + campaignName);
+            log.info("No data found for Msisdn report of campaign " + campaignName, e);
         }
 
         //set up response

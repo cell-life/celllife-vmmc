@@ -86,6 +86,7 @@ public class CsvUploadController {
                 }
             }
         } catch (SuperCsvConstraintViolationException e) {
+            log.warn("Number format is invalid. The number should not be blank.", e);
             failedContactDtos.add(new FailedContactDto("", "Number format is invalid. The number should not be blank."));
         }
 
